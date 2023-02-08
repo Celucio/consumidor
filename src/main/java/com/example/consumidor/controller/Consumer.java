@@ -12,17 +12,22 @@ import org.springframework.stereotype.Component;
 public class Consumer {
     @Autowired
     private MessageService messageService;
+
     @RabbitListener(queues = "queue.A")
-    private void receive(Message message){
+    private void receive(Message message) {
         messageService.createMessage(message);
         log.info("Message received from QUEUE.A ->{}", message);
     }
+
+
     @RabbitListener(queues = "queue.B")
     private void receiveFromB(Message message){
         messageService.createMessage(message);
         log.info("Message received from QUEUE.B ->{}", message);
     }
+
     /*
+
     @RabbitListener(queues = "queue.C")
     private void receiveFromC(Message message){
         log.info("Message received from QUEUE.C ->{}", message);

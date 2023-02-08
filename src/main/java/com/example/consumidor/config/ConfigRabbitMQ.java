@@ -13,15 +13,15 @@ public class ConfigRabbitMQ {
 
     public static final String QUEUE_A = "queue.A";
     public static final String QUEUE_B = "queue.B";
-    public static final String QUEUE_C = "queue.C";
-    public static final String QUEUE_D = "queue.D";
     public static final String ROUTING_A = "routing.A";
     public static final String ROUTING_B = "routing.B";
+    /*
+    public static final String QUEUE_C = "queue.C";
+    public static final String QUEUE_D = "queue.D";
     public static final String ROUTING_C = "routing.C";
     public static final String ROUTING_D = "routing.D";
 
-
-
+     */
     @Bean
     Queue queueA(){
         return new Queue(QUEUE_A, false);
@@ -31,7 +31,7 @@ public class ConfigRabbitMQ {
     Queue queueB(){
         return new Queue(QUEUE_B, false);
     }
-
+    /*
     @Bean
     Queue queueC(){
         return new Queue(QUEUE_C, false);
@@ -41,6 +41,7 @@ public class ConfigRabbitMQ {
     Queue queueD(){
         return new Queue(QUEUE_D, false);
     }
+    */
 
     @Bean
     DirectExchange exchange(){
@@ -53,6 +54,11 @@ public class ConfigRabbitMQ {
     }
 
     @Bean
+    TopicExchange topicExchange(){
+        return new TopicExchange("exchange.topic");
+    }
+
+    @Bean
     Binding bindingA(Queue queueA, DirectExchange exchange){
         return BindingBuilder.bind(queueA).to(exchange).with(ROUTING_A);
     }
@@ -61,6 +67,7 @@ public class ConfigRabbitMQ {
     Binding bindingB(Queue queueB, DirectExchange exchange){
         return BindingBuilder.bind(queueB).to(exchange).with(ROUTING_B);
     }
+    /*
     @Bean
     Binding bindingC(Queue queueC, DirectExchange exchange){
         return BindingBuilder.bind(queueC).to(exchange).with(ROUTING_C);
@@ -70,6 +77,7 @@ public class ConfigRabbitMQ {
     Binding bindingD(Queue queueD, DirectExchange exchange){
         return BindingBuilder.bind(queueD).to(exchange).with(ROUTING_D);
     }
+    */
 
     @Bean
     Binding bindingFanoutA(Queue queueA, FanoutExchange fanoutExchange){
@@ -80,6 +88,17 @@ public class ConfigRabbitMQ {
     Binding bindingFanoutB(Queue queueB, FanoutExchange fanoutExchange){
         return BindingBuilder.bind(queueB).to(fanoutExchange);
     }
+    //Exchange Topic
+    @Bean
+    Binding bindingTopicA(Queue queueA, TopicExchange topicExchange){
+        return BindingBuilder.bind(queueA).to(topicExchange).with(ROUTING_A);
+    }
+    @Bean
+    Binding bindingTopicB(Queue queueB, TopicExchange topicExchange){
+        return BindingBuilder.bind(queueB).to(topicExchange).with(ROUTING_B);
+    }
+
+    /*
     @Bean
     Binding bindingFanoutC(Queue queueC, FanoutExchange fanoutExchange){
         return BindingBuilder.bind(queueC).to(fanoutExchange);
@@ -89,6 +108,7 @@ public class ConfigRabbitMQ {
     Binding bindingFanoutD(Queue queueD, FanoutExchange fanoutExchange){
         return BindingBuilder.bind(queueD).to(fanoutExchange);
     }
+    */
 
     @Bean
     MessageConverter messageConverter(){
